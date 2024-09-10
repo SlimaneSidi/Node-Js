@@ -14,6 +14,20 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/about', (req, res) => {
+    res.sendFile(__dirname + '/about.html');
+});
+
+app.get('/contactme', (req, res) => {
+    res.sendFile(__dirname + '/contactme.html');
+});
+
+// add a default route to handle 404 errors
+
+app.use((req, res) => {
+    res.status(404).sendFile(__dirname + '/404.html');
+});
+
 // start server on port 8080
 
 app.listen(8080, () => {
