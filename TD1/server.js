@@ -1,25 +1,26 @@
-const fs = require('fs');
+const fs = require('fs').promises;
+
 const http = require('http');
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
 
-fs.readFile('./message.txt', 'utf8', (err, data) => {
+try {
 
-    if (err) {
-        res.statusCode = 500;
-        res.end('Fichier non trouvé !');
-        console.error(err);
-        return;
-    }
-    console.log(data);
-
-});
+const data = await fs.readFile('./message.txt', 'utf8');
 
 res.statusCode = 200;
 
 res.setHeader('Content-Type', 'text/plain');
 
-res.end('Bienvenue dans le Royaume Médiéval !');
+res.end(data);
+
+} catch (err) {
+
+res.statusCode = 500;
+
+res.end('Erreur interne du serveur.');
+
+}
 
 });
 
