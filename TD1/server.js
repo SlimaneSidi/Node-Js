@@ -17,10 +17,13 @@ res.send(`
 `);
 });
 
+app.set('view engine', 'ejs'); // Moteur de rendu
+
 // Route principale
 
 app.get('/', (req, res) => {
-    res.send('Bienvenue au Royaume Médiéval !');
+    const message = "Bienvenue au Royaume Médiéval !";
+    res.render('index', { message });
 });
 
 // Route pour récupérer les classes spells
