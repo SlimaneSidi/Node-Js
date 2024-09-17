@@ -69,11 +69,24 @@ app.listen(3000, () => {
 console.log('Le serveur écoute sur le port 3000');
 });
 
+
+const isLegendaryHero = require('./utils/heroes');
+const isTheWorstThingEver = require('./utils/heroes');
+
 function checkHero(req, res, next) {
     const heroName = req.query.hero;
-    if (!heroName || heroName != "Arthur" || heroName != "Napoleon" || heroName != "Charles VII") {
-        res.status(400).send('Vous devez spécifier un héros');
-    } else {
-        next();
+
+    if (!isLegendaryHero(heroName)) {
+        return res.status(403).send("Seuls les héros peuvent entrer.");
     }
-}
+    //else if (isTheWorstThingEver(heroName)) {
+        //return res.status(403).send("VOUS ! VOUS N'AVEZ PAS D'HONNEUR !");
+    //}
+
+    next();
+    }
+    app.use('/protected', checkHero);
+    app.get('/protected', (req, res) => {
+    res.send("Bienvenue héro des temps anciens !");
+});
+
