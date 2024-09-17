@@ -1,45 +1,56 @@
 const http = require('http');
-
+const express = require('express');
+const app = express();
 const axios = require('axios');
 
-const server = http.createServer(async (req, res) => {
+// Route principale
 
-if (req.url === '/spells') {
-
-try {
-
-const response = await axios.get('https://www.dnd5eapi.co/api/spells');
-
-const spells = response.data.results;
-
-res.statusCode = 200;
-
-res.setHeader('Content-Type', 'application/json');
-
-res.end(JSON.stringify(spells));
-
-} catch (err) {
-
-console.error(err);
-
-res.statusCode = 500;
-
-res.end("Erreur lors de la récupération des sorts.");
-
-}
-
-} else {
-
-res.statusCode = 404;
-
-res.end("Route non trouvée.");
-
-}
-
+app.get('/', (req, res) => {
+    res.send('Bienvenue au Royaume Médiéval !');
 });
 
-server.listen(3000, () => {
+// Route pour récupérer les classes spells
 
+app.get('/spells', async (req, res) => {
+    try {
+        const response = await axios.get('https://www.dnd5eapi.co/api/spells');
+        const spells = response.data.results;
+        res.statusCode = 200;
+        res.json(spells);
+
+    } catch (err) {
+    console.error(err);
+    res.status(500).send("Erreur lors de la récupération des sorts.");
+    }
+});
+
+app.get('/weapons', async (req, res) => {
+    try {
+        const response = await axios.get('https://www.dnd5eapi.co/api/equipment-categories');
+        const weapons = response.data.results;
+        res.statusCode = 200;
+        res.json(weapons);
+
+    } catch (err) {
+    console.error(err);
+    res.status(500).send("Erreur lors de la récupération des weapons.");
+    }
+});
+
+app.get('/classes', async (req, res) => {
+    try {
+        const response = await axios.get('https://www.dnd5eapi.co/api/classes');
+        const classes = response.data.results;
+        res.statusCode = 200;
+        res.json(classes);
+
+    } catch (err) {
+    console.error(err);
+    res.status(500).send("Erreur lors de la récupération des classes.");
+    }
+});
+
+
+app.listen(3000, () => {
 console.log('Le serveur écoute sur le port 3000');
-
 });
