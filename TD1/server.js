@@ -3,6 +3,20 @@ const express = require('express');
 const app = express();
 const axios = require('axios');
 
+app.use(express.static('public')); // Serveur d'assets statiques
+app.get('/', (req, res) => {
+res.send(`
+<html>
+    <head>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <h1>Bienvenue au Royaume Médiéval !</h1>
+    </body>
+</html>
+`);
+});
+
 // Route principale
 
 app.get('/', (req, res) => {
@@ -54,3 +68,12 @@ app.get('/classes', async (req, res) => {
 app.listen(3000, () => {
 console.log('Le serveur écoute sur le port 3000');
 });
+
+function checkHero(req, res, next) {
+    const heroName = req.query.hero;
+    if (!heroName || heroName != "Arthur" || heroName != "Napoleon" || heroName != "Charles VII") {
+        res.status(400).send('Vous devez spécifier un héros');
+    } else {
+        next();
+    }
+}
