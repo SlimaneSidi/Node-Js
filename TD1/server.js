@@ -1,6 +1,19 @@
+const fs = require('fs');
 const http = require('http');
 
 const server = http.createServer((req, res) => {
+
+fs.readFile('./message.txt', 'utf8', (err, data) => {
+
+    if (err) {
+        res.statusCode = 500;
+        res.end('Fichier non trouvé !');
+        console.error(err);
+        return;
+    }
+    console.log(data);
+
+});
 
 res.statusCode = 200;
 
