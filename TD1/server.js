@@ -1,3 +1,5 @@
+// importation des modules
+
 const http = require('http');
 const express = require('express');
 const app = express();
@@ -12,6 +14,10 @@ res.send(`
     </head>
     <body>
         <h1>Bienvenue au Royaume Médiéval !</h1>
+        <h3>Cliquez ici pour découvrir nos différents<h3>
+        <p><a href="/spells">Spells</a></p>
+        <p><a href="/weapons">Weapons</a></p>
+        <p><a href="/classes">Classes</a></p>
     </body>
 </html>
 `);
